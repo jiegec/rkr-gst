@@ -1,5 +1,6 @@
 [package]
 name = "rkr-gst"
+description = "Implementation of Running Karp-Rabin Greedy String Tiling algorithm"
 version = "0.1.0"
 authors = ["Jiajie Chen <c@jia.je>"]
 edition = "2018"
