@@ -5,10 +5,10 @@ license = "MIT"
 homepage = "https://github.com/jiegec/rkr-gst"
 version = "0.1.1"
 authors = ["Jiajie Chen <c@jia.je>"]
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 adler32 = "1.2.0"
-bitvec = "0.22.3"
+bitvec = "1.0.1"

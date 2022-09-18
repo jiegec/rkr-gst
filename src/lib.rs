@@ -47,7 +47,7 @@ impl<'a> RkrGst<'a> {
                     break;
                 }
                 map.entry(hash.hash()).or_insert_with(Vec::new).push(i);
-                i = i + 1;
+                i += 1;
                 if i + search_length > self.text.len() {
                     break;
                 }
@@ -95,7 +95,7 @@ impl<'a> RkrGst<'a> {
                             && !self.text_mark[text_index + k]
                             && !self.pattern_mark[pattern_index + k]
                         {
-                            k = k + 1;
+                            k += 1;
                         }
 
                         if k > 2 * search_length {
@@ -104,7 +104,7 @@ impl<'a> RkrGst<'a> {
 
                         if k >= search_length {
                             self.matches.push(Match {
-                                pattern_index: pattern_index,
+                                pattern_index,
                                 text_index: *text_index,
                                 length: k,
                             });
@@ -113,7 +113,7 @@ impl<'a> RkrGst<'a> {
                     }
                 }
 
-                i = i + 1;
+                i += 1;
                 if i + search_length > self.pattern.len() {
                     break;
                 }
@@ -177,7 +177,7 @@ pub fn run(
             // if s > 2 x minimum_match_length
             if s > 2 * minimum_match_length {
                 // s := s div 2
-                s = s / 2;
+                s /= 2;
             } else if s > minimum_match_length {
                 // else if s > minimum_match_length
                 // s := minimum_match_length
