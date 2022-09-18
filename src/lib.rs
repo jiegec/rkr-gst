@@ -41,7 +41,7 @@ impl<'a> RkrGst<'a> {
                 hash.update(self.text[j]);
             }
 
-            // advance until next unmarked
+            // advance until next marked
             loop {
                 if self.text_mark[i + search_length - 1] {
                     break;
@@ -78,7 +78,7 @@ impl<'a> RkrGst<'a> {
                 hash.update(self.pattern[j]);
             }
 
-            // advance until next unmarked
+            // advance until next marked
             loop {
                 if self.pattern_mark[i + search_length - 1] {
                     break;
@@ -126,6 +126,8 @@ impl<'a> RkrGst<'a> {
     }
 
     fn mark_strings(&mut self) {
+        // sort by length, desc
+        self.matches.sort_by(|a, b| b.length.cmp(&a.length));
         for m in &self.matches {
             let mut unmarked = true;
             for i in 0..m.length {
@@ -163,16 +165,25 @@ pub fn run(
         result: vec![],
     };
     loop {
+        // Lmax := scanpatterns(s)
         let lmax = params.scan_pattern(s);
+        // if Lmax > 2 x s
         if lmax > 2 * s {
+            // then s := Lmax
             s = lmax;
         } else {
+            // markarrays(s)
             params.mark_strings();
+            // if s > 2 x minimum_match_length
             if s > 2 * minimum_match_length {
+                // s := s div 2
                 s = s / 2;
             } else if s > minimum_match_length {
+                // else if s > minimum_match_length
+                // s := minimum_match_length
                 s = minimum_match_length;
             } else {
+                // stop := true
                 break;
             }
         }
@@ -186,7 +197,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
+    fn simple_match() {
         assert_eq!(
             run("lower".as_bytes(), "yellow".as_bytes(), 3, 2),
             vec![Match {
@@ -194,6 +205,25 @@ mod tests {
                 text_index: 3,
                 length: 3
             }]
+        );
+    }
+
+    #[test]
+    fn duplicate_match() {
+        assert_eq!(
+            run("lowerlow".as_bytes(), "yellow lowlow".as_bytes(), 3, 2),
+            vec![
+                Match {
+                    pattern_index: 0,
+                    text_index: 3,
+                    length: 3
+                },
+                Match {
+                    pattern_index: 5,
+                    text_index: 7,
+                    length: 3
+                }
+            ]
         );
     }
 }
