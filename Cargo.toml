@@ -3,7 +3,7 @@ name = "rkr-gst"
 description = "Implementation of Running Karp-Rabin Greedy String Tiling algorithm"
 license = "MIT"
 homepage = "https://github.com/jiegec/rkr-gst"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Jiajie Chen <c@jia.je>"]
 edition = "2021"
 
